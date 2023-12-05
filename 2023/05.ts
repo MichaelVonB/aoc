@@ -17,7 +17,7 @@ for (let i = 0; i < seeds.length; i += 2) {
 
 const mapData = input.slice(2);
 
-const solutionOne = rawInput
+const parsedData = rawInput
   .split(newLineChar + newLineChar)
   .slice(1)
   .map((block) => {
@@ -41,8 +41,6 @@ const solutionOne = rawInput
     return { ...data, mappings };
   });
 
-console.log({ solutionOne });
-
 const mapLocation = (
   mappings: {
     start: number;
@@ -60,7 +58,7 @@ const mapLocation = (
 
 const seedMap = seeds.map((seed) => {
   let location = seed;
-  solutionOne.forEach((mapping) => {
+  parsedData.forEach((mapping) => {
     location = mapLocation(mapping.mappings, location);
   });
   return { seed, location };
@@ -68,14 +66,12 @@ const seedMap = seeds.map((seed) => {
 
 console.log({ solutionOne: Math.min(...seedMap.map((m) => m.location)) });
 
-console.log({ groupedSeeds });
-
-let min = 26165609399999;
+let min = Number.MAX_SAFE_INTEGER;
 console.time("sol2");
 groupedSeeds.map((seeds, index) => {
   for (let i = 0; i < seeds.range; i++) {
     let location = seeds.start + i;
-    solutionOne.forEach((mapping) => {
+    parsedData.forEach((mapping) => {
       location = mapLocation(mapping.mappings, location);
     });
     if (location < min) {
