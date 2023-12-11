@@ -44,13 +44,17 @@ const map = input.map((line, i) =>
   line.split("").map((l, j) => l)
 ) as Operators[][];
 
-const realSChar = "J";
-let previousPosition: Position = { i: 61, j: 10 }; //hardcode
-let currentPosition: Position = { i: 61, j: 9 }; //hardcode
+// const realSChar = "J";
+const realSChar = "L"; //CPO
+// let previousPosition: Position = { i: 61, j: 10 }; //hardcode
+// let currentPosition: Position = { i: 61, j: 9 }; //hardcode
+let previousPosition: Position = { i: 115, j: 40 }; //hardcode CPO
+let currentPosition: Position = { i: 114, j: 40 }; //hardcode
 // let previousPosition: Position = { i: 1, j: 1 }; //hardcode
 // let currentPosition: Position = { i: 2, j: 1 }; //hardcode
 
-let currentOperator: Operators = "F";
+let currentOperator: Operators = "|"; //CPO
+// let currentOperator: Operators = "F";
 // let currentOperator: Operators = "|";
 let iter = 1;
 
@@ -116,9 +120,23 @@ cleanLoop.forEach((row, r) => {
 let outsideSet = new Set(inside.map(({ i, j }) => `${i}-${j}`));
 let loopSet = new Set(loop.map(({ i, j }) => `${i}-${j}`));
 
+const foo = cleanLoop.map((row, rowIndex) => {
+  return row.map((val, colIndex) => {
+    const pos = `${rowIndex}-${colIndex}`;
+    if (loopSet.has(pos) || outsideSet.has(pos)) {
+      console.log("included");
+      return ".";
+    } else {
+      return "X";
+    }
+  });
+});
+
 let notOutsiders = new Set([...outsideSet, ...loopSet]);
 console.log(
   "there are",
   cleanLoop.length * cleanLoop[0].length - notOutsiders.size,
   "outside elements"
 );
+
+console.log(foo.map((row) => row.join("")).join("\n"));
